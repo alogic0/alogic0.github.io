@@ -4,7 +4,7 @@
 {-# LANGUAGE OverloadedStrings, ExtendedDefaultRules #-}
 
 import Control.Monad (filterM, liftM2)
-import System.Directory ( doesFileExist, doesDirectoryExist
+import System.Directory ( canonicalizePath, doesFileExist, doesDirectoryExist
                         , getModificationTime, getFileSize
                         , listDirectory )
 import Data.Char (toLower)
@@ -14,22 +14,27 @@ import Data.List
 import Lucid
 import System.IO (stdout, hSetEncoding, utf8)
 import System.Environment (getArgs)
-import Data.Text.Lazy.IO as L
+import qualified Data.Text.Lazy.IO as L
 import qualified Data.Text as T
 
 
 main :: IO ()
 main = do
   args <- getArgs
-  let dir =
+  let dir1 =
         if null args
           then "."
           else head args
+  let dir = reverse $ dropWhile (== '/') $ reverse dir1
   fs1 <- listDirectory dir
   let fs2 = filter ((/= '.') . head) $ filter (not . null) fs1
   let fs3 = filter (not . isPrefixOf "index.htm" . map toLower) fs2
-  fs <- filterM (\n -> liftM2 (||) (doesFileExist n) (doesDirectoryExist n)) fs3
-  fps <- mapM fileHelper fs
+  fs <- filterM (\n -> 
+      let n' = dir ++ "/" ++ n
+      in liftM2 (||) (doesFileExist n') (doesDirectoryExist n')
+      )
+      fs3
+  fps <- mapM (fileHelper dir) fs
   hSetEncoding stdout utf8
   L.hPutStr stdout $ renderText $ template1 dir fps
   -- mapM_ (putStrLn . (\n -> mkRow (n, True))) $ sortBy sortMD fsE 
@@ -45,19 +50,21 @@ data File = File
       -- | Last modified time, used for both display in listings and if-modified-since.
     , fileGetModified :: UTCTime
     }
+    deriving Show
 
-fileHelper :: FilePath -> IO (Either FolderName File)
-fileHelper fname = do
+fileHelper :: FilePath -> FilePath -> IO (Either FolderName File)
+fileHelper dir fn = do
+  let fname = dir ++ "/" ++ fn
   de <- doesDirectoryExist fname
   if de
-    then return $ Left fname
+    then return $ Left fn
     else do
       fe <- doesFileExist fname
       if fe
         then do
           size <- getFileSize fname
           t <- getModificationTime fname
-          return $ Right $ File size fname t
+          return $ Right $ File size fn t
         else error $ fname ++ " isn't file or directory"
 
 template1 :: FilePath -> [Either FolderName File] -> Html ()
