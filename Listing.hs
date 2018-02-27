@@ -13,8 +13,27 @@ import Data.Time.Clock.POSIX
 import Data.List
 import Lucid
 import System.IO (stdout, hSetEncoding, utf8)
+import System.Environment (getArgs)
 import Data.Text.Lazy.IO as L
 import qualified Data.Text as T
+
+
+main :: IO ()
+main = do
+  args <- getArgs
+  let dir =
+        if null args
+          then "."
+          else head args
+  fs1 <- listDirectory dir
+  let fs2 = filter ((/= '.') . head) $ filter (not . null) fs1
+  let fs3 = filter (not . isPrefixOf "index.htm" . map toLower) fs2
+  fs <- filterM (\n -> liftM2 (||) (doesFileExist n) (doesDirectoryExist n)) fs3
+  fps <- mapM fileHelper fs
+  hSetEncoding stdout utf8
+  L.hPutStr stdout $ renderText $ template1 dir fps
+  -- mapM_ (putStrLn . (\n -> mkRow (n, True))) $ sortBy sortMD fsE 
+
 
 type FolderName = String
 
@@ -74,7 +93,7 @@ template1 dir fps = do
             "Modified"
           th_ $ do
             "Size"
-        tbody_ $ mapM_ mkRow (zip (sortBy sortMD fps) $ cycle [False, True])
+        tbody_ $ mapM_ mkRow (zip (Left ".." : sortBy sortMD fps) $ cycle [False, True])
   where
     sortMD :: Either FolderName File -> Either FolderName File -> Ordering
     sortMD Left{} Right{} = LT
@@ -119,16 +138,4 @@ template1 dir fps = do
     addCommas s = (++ (' ' : s)) . reverse . addCommas' . reverse . show
     addCommas' (a:b:c:d:e) = a : b : c : ',' : addCommas' (d : e)
     addCommas' x = x
-
-main :: IO ()
-main = do
-  let dir = "."
-  fs1 <- listDirectory dir
-  let fs2 = filter ((/= '.') . head) $ filter (not . null) fs1
-  let fs3 = filter (not . isPrefixOf "index.htm" . map toLower) fs2
-  fs <- filterM (\n -> liftM2 (||) (doesFileExist n) (doesDirectoryExist n)) fs3
-  fps <- mapM fileHelper fs
-  hSetEncoding stdout utf8
-  L.hPutStr stdout $ renderText $ template1 dir fps
-  -- mapM_ (putStrLn . (\n -> mkRow (n, True))) $ sortBy sortMD fsE 
 
