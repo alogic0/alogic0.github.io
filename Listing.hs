@@ -37,8 +37,15 @@ main = do
   fps <- mapM (fileHelper dir) fs
   hSetEncoding stdout utf8
   L.hPutStr stdout $ renderText $ template1 dir fps
-  -- mapM_ (putStrLn . (\n -> mkRow (n, True))) $ sortBy sortMD fsE 
-
+{-
+  mapM_ (putStrLn . show) $ sortBy sortMD fps 
+  where
+    sortMD :: Either FolderName File -> Either FolderName File -> Ordering
+    sortMD Left{} Right{} = LT
+    sortMD Right{} Left{} = GT
+    sortMD (Left a) (Left b) = compare a b
+    sortMD (Right a) (Right b) = compare (fileName a) (fileName b)
+-}
 
 type FolderName = String
 
@@ -72,6 +79,7 @@ template1 dir fps = do
   let dir' = toHtml dir
   html_ $ do
     head_ $ do
+      meta_ [ charset_ "utf-8" ]
       title_ dir' 
       style_ $ do 
         T.unlines [ "table { margin: 0 auto; width: 760px; border-collapse: collapse; font-family: 'sans-serif'; }"
