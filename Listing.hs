@@ -101,7 +101,7 @@ template1 dir fps = do
       table_ $ do
         thead_ $ do
           th_ [ class_ "first" ] $ do
-            img_ [ src_ haskellSrc ]
+            a_ [ href_ "/" ] $ img_ [ src_ haskellSrc ]
           th_ $ do
             "Name"
           th_ $ do
