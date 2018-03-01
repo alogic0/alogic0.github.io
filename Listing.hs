@@ -123,8 +123,9 @@ template1 dir fps = do
             $ case md of
                 Left{} -> img_ [ src_ folderSrc, alt_ "Folder" ]
                 Right{} -> return ()
-        let name = T.pack $ either id fileName md
-        td_ $ a_ [ href_ name ] $ toHtml name
+        let name = toHtml $ either id fileName md
+        let href = T.pack $ either (++"/") fileName md
+        td_ $ a_ [ href_ href ] name
         td_ [ class_ "date" ] $ toHtml $
             case md of
                 Right File { fileGetModified = t } ->
