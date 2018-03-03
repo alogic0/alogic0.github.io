@@ -10,4 +10,4 @@ inside the directory.
 
 [lens-tutorial](https://hackage.haskell.org/package/lens-tutorial)
 
-*  There is also [books](/books/) page here for my personal use.
+*  There is also /books/ page here for my personal use.
