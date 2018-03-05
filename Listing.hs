@@ -80,6 +80,7 @@ template1 dir fps = do
   html_ $ do
     head_ $ do
       meta_ [ charset_ "utf-8" ]
+      link_ [ rel_ "shortcut icon", type_ "image/png", href_ "/images/lambda_yb.png" ]
       title_ dir' 
       style_ $ do 
         T.unlines [ "table { margin: 0 auto; width: 760px; border-collapse: collapse; font-family: 'sans-serif'; }"
