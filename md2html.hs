@@ -8,14 +8,20 @@ import qualified Data.Text as T
 main :: IO ()
 main = do
   content <- TO.readFile "index.md"
-  let html_out = T.concat [ "<html>"
-                          , "<head>"
-                          , "<meta charset=\"utf-8\">"
-                          , "<link rel=\"shortcut icon\" type=\"image/png\" href=\"/images/haskell_yb.png\">"
-                          , "</head>"
-                          , "<body>"
-                          , commonmarkToHtml [] content
-                          , "</body>"
-                          , "</html>"]
-  TO.putStrLn html_out
+  let header = 
+        T.unlines 
+          [ "<html>"
+          , "<head>"
+          , "<meta charset=\"utf-8\">"
+          , "<link rel=\"shortcut icon\" type=\"image/png\" href=\"/images/lambda_yb.png\">"
+          , "</head>"
+          , "<body>" ]
+  let footer =
+        T.unlines 
+          [ "</body>"
+          , "</html>"]
+  TO.putStrLn $ T.concat
+                  [ header
+                  , commonmarkToHtml [] content
+                  , footer]
 --  TO.writeFile "index.html" html_out
