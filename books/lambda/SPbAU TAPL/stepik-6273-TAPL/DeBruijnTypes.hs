@@ -50,10 +50,20 @@ substDB j s (If t1 t2 t3) =
 substDB _ _ t = t
 
 isValue :: Term -> Bool
-isValue u = undefined
+isValue Fls = True
+isValue Tru = True
+isValue (Lmb _ _ _) = True
+isValue _ = False
 
 oneStep :: Term -> Maybe Term
-oneStep u = undefined
+oneStep u | isValue u = Nothing
+oneStep (If Tru t2 _) = Just t2
+oneStep (If Fls _ t3) = Just t3
+oneStep (If t1 t2 t3) = do
+  t1' <- oneStep t1
+  return (If t1' t2 t3)
+
+oneStep _ = undefined
 
 whnf :: Term -> Term 
 whnf u = undefined

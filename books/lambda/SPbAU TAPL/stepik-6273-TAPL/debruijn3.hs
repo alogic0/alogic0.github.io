@@ -165,3 +165,26 @@ hasRedex (Lmb t1) = hasRedex t1
 hasRedex _ = False
 -}
 
+nfDBAe e =
+  let (ctx, trm) = e2t e
+  in t2e ctx $ nfDB oneStepDBA trm
+
+e2t0 = snd . e2t
+
+t2e0 = t2e []
+
+{- Booleans
+tru = Lam "x" (Lam "y" (Var "x"))
+fls = Lam "x" (Lam "y" (Var "y"))
+cond = Lam "i" (Lam "t" (Lam "f" ((Var "i" :@ Var "t") :@ Var "f")))
+pair = Lam "f" (Lam "s" (Lam "b" ((Var "b" :@ Var "f") :@ Var "s")))
+fstp = Lam "p" (Var "p" :@ tru)
+sndp = Lam "p" (Var "p" :@ fls)
+chNum n = Lam "s" $ Lam "z" $ foldr (:@) (Var "z") $ replicate n (Var "s")
+scc = Lam "n" $ Lam "s" $ Lam "z" $ Var "s" :@ (Var "n" :@ Var "s" :@ Var "z")
+plus' = Lam "f" (Lam "m" (Lam "n" (Var "m" :@ Var "f" :@ Var "n")))
+plus = t2e0 $ nfDB oneStepDBA (e2t0 plus' :@: e2t0 scc)
+times' = Lam "f" $ Lam "z" $ Lam "m" $ Lam "n" $ Var "n" :@ (Var "f" :@ Var "m") :@ Var "z"
+times = t2e0 $ nfDB oneStepDBA (e2t0 times' :@: e2t0 plus :@: e2t0 (chNum 0))
+power = t2e0 $ nfDB oneStepDBA (e2t0 times' :@: e2t0 times :@: e2t0 (chNum 1))
+-}
