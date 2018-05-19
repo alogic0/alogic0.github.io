@@ -1,2 +1,2 @@
 # alogic0.github.io
-Homepage on Github
+A homepage on Github.
