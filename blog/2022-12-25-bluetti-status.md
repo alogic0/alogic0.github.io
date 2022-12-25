@@ -23,9 +23,12 @@ mosquitto_sub -t "bluetti/state/EB3A-2244001436852/dc_output_power"
 mosquitto_sub -t "bluetti/state/EB3A-2244001436852/ac_input_voltage"
 mosquitto_sub -t "bluetti/state/EB3A-2244001436852/ac_input_power"
 ```
+## Links
+[What is MQTT and How It Works](https://randomnerdtutorials.com/what-is-mqtt-and-how-it-works/)
 
-Source of MQTT Topics:  
+[Install Mosquitto MQTT Broker On Ubuntu](https://www.vultr.com/docs/install-mosquitto-mqtt-broker-on-ubuntu-20-04-server/)
+
+Source file to reveal Bluetti MQTT _Topics_:  
 https://github.com/warhammerkid/bluetti_mqtt/blob/6fbfb767d222a90b6af7aca1a6f16b03682be0be/bluetti_mqtt/mqtt_client.py
 
-Info about Mosquitto:  
-https://www.vultr.com/docs/install-mosquitto-mqtt-broker-on-ubuntu-20-04-server/
+
