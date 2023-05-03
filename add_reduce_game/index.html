@@ -18,10 +18,10 @@
     </header>
     <section id="events">
       <h2>Vue events in Action</h2>
+      <p>Goal: <input size="7" v-model="goal"/></p><br/>
+      <p>Current: {{ result }}</p><br/>
       <button @click="add(3)">Add 3</button>
       <button @click="reduce(7)">Reduce 7</button>
-      <p>Result: {{ result }}</p><br/>
-      <p>Goal: <input size="7" v-model="goal"/></p><br/>
       <p>Times added: {{ addCounter }}</p>
       <p>Times reduced: {{ reduceCounter }}</p>
     </section>
