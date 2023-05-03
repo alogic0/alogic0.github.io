@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Игра для Тимофея</h1>
+    </header>
+    <section id="events">
+      <h2>Vue events in Action</h2>
+      <button @click="add(3)">Add 3</button>
+      <button @click="reduce(7)">Reduce 7</button>
+      <p>Result: {{ result }}</p><br/>
+      <p>Goal: <input size="7" v-model="goal"/></p><br/>
+      <p>Times added: {{ addCounter }}</p>
+      <p>Times reduced: {{ reduceCounter }}</p>
+    </section>
+  </body>
+</html>
