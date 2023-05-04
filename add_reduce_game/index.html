@@ -14,16 +14,31 @@
   </head>
   <body>
     <header>
-      <h1>Игра для Тимофея</h1>
+      <h1>Числа Тимофея</h1>
     </header>
     <section id="events">
-      <h2>Vue events in Action</h2>
-      <p>Goal: <input size="7" v-model="goal"/></p><br/>
-      <p>Current: {{ result }}</p><br/>
-      <button @click="add(3)">Add 3</button>
-      <button @click="reduce(7)">Reduce 7</button>
+      <h2>Make Current equal to Goal</h2>
+      <p>
+        Goal: <input size="7" v-model="goal" @click="restartGame()" />
+        <button @click="setRandom()">Random goal</button>
+      </p>
+      <br />
+      <p>Current: {{ result }}</p>
+      <br />
+      <button @click="add()">Add {{ addNum }}</button>
+      <button @click="reduce()">Reduce {{ reduceNum }}</button>
       <p>Times added: {{ addCounter }}</p>
       <p>Times reduced: {{ reduceCounter }}</p>
+      <p>
+        change add num: <input size="7" v-model="addNum"/>
+      </p>
+      <p>
+        change reduce num: <input size="7" v-model="reduceNum"/>
+      </p>
+      <p>
+        <button @click="clearCounters()">CLEAR</button>
+        <button @click="reloadGame()">RELOAD</button>
+      </p>
     </section>
   </body>
 </html>
