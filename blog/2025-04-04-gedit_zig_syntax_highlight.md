@@ -9,7 +9,7 @@ wget https://gist.githubusercontent.com/deingithub/f40e2f3b75a4daf471cd8847be14d
 ```
 Re-run your `gedit`. Now you should have `zig` in the list of supported languages.
 
-![](2025-04/2025-04-04_zig_highlight.png | width=100)
+![screenshot](./2025-04/2025-04-04_zig_highlight.png | width=100)
 
 If version of `gtksourceview` is changed, then check its name in the `/usr/share` and modify your `.local/share` folder name accordingly.
 
